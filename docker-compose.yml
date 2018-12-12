@@ -1,16 +1,21 @@
 version: '3'
+volumes:
+  postgres_database:
+    external: true
 services:
   postgres:
     image: 'postgres:latest'
+    volumes:
+      - postgres_database:/var/lib/postgresql/data:Z
   redis:
     image: 'redis:latest'
   nginx:
     restart: always
-    build: 
+    build:
       dockerfile: Dockerfile.dev
       context: ./nginx
     ports:
-      - '3001:80'
+      - '3002:80'
   api:
     build:
       dockerfile: Dockerfile.dev
